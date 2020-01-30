@@ -4,6 +4,8 @@ SolveSpace
 This repository contains the source code of [SolveSpace][], a parametric
 2d/3d CAD.
 
+This fork contains bindings to PureScript. (Tested for Linux only)
+
 [solvespace]: http://solvespace.com
 
 Community
@@ -65,11 +67,24 @@ On a Redhat derivative (e.g. Fedora) the dependencies can be installed with:
                      fontconfig-devel gtkmm30-devel pangomm-devel \
                      mesa-libGL-devel mesa-libGLU-devel libspnav-devel
 
+For building the PureScript part the following tools have to be installed:
+
+	# Install Haskell Stack (https://docs.haskellstack.org/en/stable/README/).
+    # Install purescript@0.13 (https://github.com/purescript/purescript)
+    # Install spago           (https://github.com/spacchetti/spago)
+    # Install zephyr          (https://github.com/coot/zephyr)
+    # Install PureScript Native "extern C" variant (master branch)
+    git clone https://git@github.com:freylax/purescript-native.git
+    cd purescript-native
+    stack install
+ 
+    cd
+
 Before building, check out the project and the necessary submodules:
 
     git clone https://github.com/solvespace/solvespace
     cd solvespace
-    git submodule update --init extlib/libdxfrw extlib/flatbuffers extlib/q3d
+    git submodule update --init extlib/libdxfrw extlib/flatbuffers extlib/q3d purescript/ffi
 
 After that, build SolveSpace as following:
 

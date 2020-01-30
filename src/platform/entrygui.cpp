@@ -7,6 +7,11 @@
 #if defined(WIN32)
 #   include <windows.h>
 #endif
+#if defined(PS_ENABLED)
+#   include <giomm.h>
+#   include "Server.h"
+#   include "Network_GioTcpServer.h"
+#endif
 
 using namespace SolveSpace;
 
@@ -24,6 +29,14 @@ int main(int argc, char** argv) {
 
         SS.Load(Platform::Path::From(args.back()).Expand(/*fromCurrentDirectory=*/true));
     }
+
+#if defined(PS_ENABLED)
+    Gio::init();
+    // the server object has to stay in scope
+    // for having the server running
+    boxed v = PS_Network_GioTcpServer_createServer()(1031)();
+    PS_Server_server()(v)();
+#endif
 
     Platform::RunGui();
 

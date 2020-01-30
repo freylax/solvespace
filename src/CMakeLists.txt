@@ -97,9 +97,15 @@ if(Backtrace_FOUND)
 endif()
 
 if(SPACEWARE_FOUND)
-    include_directories(
-        ${SPACEWARE_INCLUDE_DIR})
+  include_directories(
+    ${SPACEWARE_INCLUDE_DIR})
 endif()
+
+if( ENABLE_PS)
+  include_directories(
+    ${PURESCRIPT_INCLUDE_DIRS})
+endif()
+    
 
 if(OPENGL STREQUAL 3)
     set(gl_SOURCES
@@ -336,7 +342,8 @@ if(ENABLE_GUI)
         solvespace-core
         ${OPENGL_LIBRARIES}
         ${platform_LIBRARIES}
-        ${COVERAGE_LIBRARY})
+        ${COVERAGE_LIBRARY}
+	${PURESCRIPT_EXECLIB})
 
     if(MSVC)
         set_target_properties(solvespace PROPERTIES

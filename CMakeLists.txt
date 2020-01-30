@@ -36,16 +36,18 @@ set(solvespace_VERSION_MAJOR 3)
 set(solvespace_VERSION_MINOR 0)
 string(SUBSTRING "${GIT_COMMIT_HASH}" 0 8 solvespace_GIT_HASH)
 
+set(ENABLE_PS         ON CACHE BOOL
+  "Wheter the PureScript interface is enabled")
 set(ENABLE_GUI        ON CACHE BOOL
-    "Whether the graphical interface is enabled")
+  "Whether the graphical interface is enabled")
 set(ENABLE_CLI        ON CACHE BOOL
-    "Whether the command line interface is enabled")
+  "Whether the command line interface is enabled")
 set(ENABLE_TESTS      ON  CACHE BOOL
-    "Whether the test suite will be built and run")
+  "Whether the test suite will be built and run")
 set(ENABLE_COVERAGE   OFF CACHE BOOL
-    "Whether code coverage information will be collected")
+  "Whether code coverage information will be collected")
 set(ENABLE_SANITIZERS OFF CACHE BOOL
-    "Whether to enable Clang's AddressSanitizer and UndefinedBehaviorSanitizer")
+  "Whether to enable Clang's AddressSanitizer and UndefinedBehaviorSanitizer")
 
 set(OPENGL 3 CACHE STRING "OpenGL version to use (one of: 1 3)")
 
@@ -65,6 +67,16 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         message(FATAL_ERROR "GCC 5.0+ is required")
     endif()
 endif()
+
+if( ENABLE_PS )
+  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPS_ENABLED")
+  set( PURESCRIPT_INCLUDE_DIRS
+    "${CMAKE_SOURCE_DIR}/purescript/output/cpp/runtime"
+    "${CMAKE_SOURCE_DIR}/purescript/output/cpp/modules"
+    )
+  set( PURESCRIPT_EXECLIB "${LIBRARY_OUTPUT_PATH}/libpsexec.so" )
+endif()
+  
 
 # common compiler flags
 
@@ -334,6 +346,9 @@ endif()
 
 add_subdirectory(res)
 add_subdirectory(src)
+if(ENABLE_PS)
+  add_subdirectory(purescript)
+endif()
 add_subdirectory(exposed)
 if(ENABLE_TESTS)
     add_subdirectory(test)

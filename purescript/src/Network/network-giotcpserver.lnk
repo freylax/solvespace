@@ -1,0 +1,1 @@
+-lpthread -lgiomm-2.4 -lgio-2.0 -lglibmm-2.4 -lgobject-2.0 -lglib-2.0 -lsigc-2.0

@@ -11,5 +11,8 @@
 /debian/solvespace/
 /debian/libslvs1/
 /debian/libslvs1-dev/
+/purescript/.spago/
+/purescript/output/
+/purescript/*~
 /obj-*/
 /*.slvs

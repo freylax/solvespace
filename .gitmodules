@@ -26,3 +26,6 @@
 [submodule "extlib/q3d"]
 	path = extlib/q3d
 	url = https://github.com/q3k/q3d
+[submodule "purescript/ffi"]
+	path = purescript/ffi
+	url = http://github.com/freylax/purescript-native-cpp-ffi.git
