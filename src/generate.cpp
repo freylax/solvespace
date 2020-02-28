@@ -128,18 +128,21 @@ bool SolveSpaceUI::PruneConstraints(hGroup hg) {
     return false;
 }
 
+
 void SolveSpaceUI::GenerateAll(Generate type, bool andFindFree, bool genForBBox) {
     int first = 0, last = 0, i;
 
     uint64_t startMillis = GetMilliseconds(),
              endMillis;
-
+    testEntity( "GenerateAll 1");
     SK.groupOrder.Clear();
     for(auto &g : SK.group) { SK.groupOrder.Add(&g.h); }
     std::sort(SK.groupOrder.begin(), SK.groupOrder.end(),
         [](const hGroup &ha, const hGroup &hb) {
             return SK.GetGroup(ha)->order < SK.GetGroup(hb)->order;
         });
+
+    testEntity( "GenerateAll 2");
 
     switch(type) {
         case Generate::DIRTY: {
@@ -190,6 +193,8 @@ void SolveSpaceUI::GenerateAll(Generate type, bool andFindFree, bool genForBBox)
         }
     }
 
+    testEntity( "GenerateAll 3");
+
     // If we're generating entities for display, first we need to find
     // the bounding box to turn relative chord tolerance to absolute.
     if(!SS.exportMode && !genForBBox) {
@@ -206,6 +211,8 @@ void SolveSpaceUI::GenerateAll(Generate type, bool andFindFree, bool genForBBox)
     while(PruneOrphans())
         ;
 
+    testEntity( "GenerateAll 4");
+
     // Don't lose our numerical guesses when we regenerate.
     IdList<Param,hParam> prev = {};
     SK.param.MoveSelfInto(&prev);
@@ -213,6 +220,8 @@ void SolveSpaceUI::GenerateAll(Generate type, bool andFindFree, bool genForBBox)
     int oldEntityCount = SK.entity.n;
     SK.entity.Clear();
     SK.entity.ReserveMore(oldEntityCount);
+
+    testEntity( "GenerateAll 5");
 
     // Not using range-for because we're using the index inside the loop.
     for(i = 0; i < SK.groupOrder.n; i++) {
@@ -286,6 +295,8 @@ void SolveSpaceUI::GenerateAll(Generate type, bool andFindFree, bool genForBBox)
         }
     }
 
+    testEntity( "GenerateAll 6");
+
     // And update any reference dimensions with their new values
     for(auto &con : SK.constraint) {
         Constraint *c = &con;
@@ -348,6 +359,8 @@ void SolveSpaceUI::GenerateAll(Generate type, bool andFindFree, bool genForBBox)
         deleted = {};
     }
 
+    testEntity( "GenerateAll 7");
+
     FreeAllTemporary();
     allConsistent = true;
     SS.GW.persistentDirty = true;
@@ -378,6 +391,8 @@ pruned:
     prev.MoveSelfInto(&(SK.param));
     // Try again
     GenerateAll(type, andFindFree, genForBBox);
+    testEntity( "GenerateAll 8");
+
 }
 
 void SolveSpaceUI::ForceReferences() {

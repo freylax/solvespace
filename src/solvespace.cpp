@@ -6,6 +6,17 @@
 //-----------------------------------------------------------------------------
 #include "solvespace.h"
 #include "config.h"
+#include <iostream>
+
+void testEntity( const std::string& tag )
+{
+  std::cout << "T(" << tag << "): n=" << SK.entity.n;
+  int dummy = 0;
+  for(auto it = SK.entity.begin(), end = SK.entity.end(); it != end; ++it) {
+    dummy += (int) it->type;
+  }
+  std::cout << " passed, " << dummy << std::endl;
+}
 
 SolveSpaceUI SolveSpace::SS = {};
 Sketch SolveSpace::SK = {};
@@ -138,6 +149,8 @@ void SolveSpaceUI::Init() {
     NewFile();
     AfterNewFile();
 
+    testEntity( "Init 1" );
+    
     if(TW.window && GW.window) {
         TW.window->ThawPosition(settings, "TextWindow");
         GW.window->ThawPosition(settings, "GraphicsWindow");
@@ -148,6 +161,8 @@ void SolveSpaceUI::Init() {
         // Do this once the window is created.
         Request3DConnexionEventsForWindow(GW.window);
     }
+    testEntity( "Init 2" );
+
 }
 
 bool SolveSpaceUI::LoadAutosaveFor(const Platform::Path &filename) {

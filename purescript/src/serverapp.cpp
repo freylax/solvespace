@@ -12,7 +12,7 @@ int main(int argc, const char* argv[]) {
 
   boxed v = PS_Network_GioTcpServer_createServer()(1031)();
   
-  PS_ServerApp_main()(v)();
+  PS_ServerApp_main()(boxed(0))(v)();
 
   loop->run();
 

@@ -212,6 +212,7 @@ endfunction()
 include_directories(
   ${PURESCRIPT_INCLUDE_DIRS}
   ${GTKMM_INCLUDE_DIRS}
+  ${SOLVESPACE_INCLUDE_DIR}
   )
 
 # create dependency mapping to

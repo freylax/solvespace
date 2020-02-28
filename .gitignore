@@ -13,6 +13,6 @@
 /debian/libslvs1-dev/
 /purescript/.spago/
 /purescript/output/
-/purescript/*~
 /obj-*/
 /*.slvs
+*~

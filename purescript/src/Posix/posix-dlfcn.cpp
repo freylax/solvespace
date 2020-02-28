@@ -27,7 +27,7 @@ namespace {
       typedef const boxed& (*PF_boxed)();
       auto f = reinterpret_cast<PF_boxed>( ::dlsym( dlobj, sym.c_str()));  // NOLINT
       if (!f) throw std::runtime_error( dlerror());
-      return boxed( f() );
+      return boxed( f());
     }
     
     void dlclose() { if( dlobj != NULL ) { ::dlclose( dlobj); dlobj = NULL; } }

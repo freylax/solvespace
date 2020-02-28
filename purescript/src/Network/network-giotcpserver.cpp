@@ -7,6 +7,7 @@
 #include <cstring>
 #include <gio/gnetworking.h>
 #include <glib-unix.h>
+#include <iostream>
 
 using namespace purescript;
 
@@ -117,19 +118,26 @@ namespace {
 		 const Glib::RefPtr<Gio::SocketConnection> &sock_ )
     : connections( connections_), sock( sock_)
   {
+    std::cout << "Socket()" << std::endl;
     if( handleRead) signal_onRead.connect( handleRead);
     if(!sock->get_socket()->set_option(IPPROTO_TCP, TCP_NODELAY, 1)) {
       //std::cout << "Warning: unable to set TCP_NODELAY option";
     }
     start_read();
   }
-  Socket::~Socket() { sock->close(); }
+  Socket::~Socket() {
+    std::cout << "~Socket()" << std::endl;
+    sock->close();
+  }
 
   void Socket::set_iterator(std::list<std::shared_ptr< Socket> >::iterator iter)
   { myself = iter; }
 
   void Socket::close()
-  { connections.erase( myself); }
+  {
+    std::cout << "Socket::close()" << std::endl;
+    connections.erase( myself);
+  }
 
   void Socket::start_read() {
     sock->get_input_stream()->read_async
@@ -145,8 +153,10 @@ namespace {
 	if( ( bytes_read == sizeof( buffer) - 1) &&
 	    buffer[bytes_read-1] != '\n' )
 	  start_read();
-	else
+	else {
+	  std::cout << "finished_read: emit signal onRead" << std::endl;
 	  signal_onRead.emit( *myself);
+	}
       } else {
 	close();
       }
@@ -250,9 +260,13 @@ extern "C" auto PS_Network_GioTcpServer_onRead() -> const boxed& {
 	auto& server = const_cast<Server&>( unbox< Server>( server_));
 	server.onRead( [=] ( std::weak_ptr<Socket> socket )
 	{
+	  std::cout << "onReadCb 1" << std::endl;
 	  if( auto s = socket.lock() ) {
+	    std::cout << "onReadCb 2" << std::endl;
 	    f( s)();
+	    std::cout << "onReadCb 3" << std::endl;
 	  }
+	  std::cout << "onReadCb 4" << std::endl;
 	});
 	return boxed();
       };

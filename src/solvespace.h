@@ -75,6 +75,8 @@ typedef struct _cairo_surface cairo_surface_t;
 #   define isnan(x) (((x) != (x)) || (x > 1e11) || (x < -1e11))
 #endif
 
+void testEntity( const std::string& tag );
+
 namespace SolveSpace {
 
 using std::min;

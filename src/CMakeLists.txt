@@ -338,6 +338,11 @@ if(ENABLE_GUI)
     add_dependencies(solvespace
         resources)
 
+#      if(ENABLE_PS)
+#	add_dependencies(solvespace
+#	  ${PURESCRIPT_EXECLIB})
+#      endif()
+      
     target_link_libraries(solvespace
         solvespace-core
         ${OPENGL_LIBRARIES}

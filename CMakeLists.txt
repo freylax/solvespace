@@ -70,6 +70,8 @@ endif()
 
 if( ENABLE_PS )
   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPS_ENABLED")
+  set( SOLVESPACE_INCLUDE_DIR
+    "${CMAKE_SOURCE_DIR}/src")
   set( PURESCRIPT_INCLUDE_DIRS
     "${CMAKE_SOURCE_DIR}/purescript/output/cpp/runtime"
     "${CMAKE_SOURCE_DIR}/purescript/output/cpp/modules"
